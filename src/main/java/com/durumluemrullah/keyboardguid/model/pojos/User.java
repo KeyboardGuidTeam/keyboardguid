@@ -11,13 +11,16 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User  {
-
+    // github linked google
     private BigInteger userId;
     private BigInteger companyId;
     private BigInteger departmentId;
     private String userName;
-    private String userEmail;
-    private String phoneNumber;
+    private String userEmail; // email ile doğrulama
+    private String phoneNumber; // phone number ile doğrulama
     private String password;
     private Date creationDate;
+
+    // auth -> jwt
+
 }

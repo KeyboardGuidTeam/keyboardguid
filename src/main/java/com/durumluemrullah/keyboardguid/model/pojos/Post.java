@@ -16,7 +16,7 @@ public class Post {
     private BigInteger userId;
     private BigInteger categoryId;
     private BigInteger postInformationId;
-    private String context;
+    private String link;
     private String comment;
     private Date creationDate;
     private Date lastUpdateDate;
