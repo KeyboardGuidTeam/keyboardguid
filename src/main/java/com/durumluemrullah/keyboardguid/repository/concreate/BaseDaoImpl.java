@@ -49,7 +49,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("SELECT * FROM ");
 
-        queryBuilder.append("\"").append(getTableName()).append("\"");
+        queryBuilder.append(getTableName());
 
         return jdbcTemplate.query(queryBuilder.toString(),rowMapper);
     }
@@ -57,7 +57,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     @Override
     public void create(T entity) {
         StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("INSERT INTO ").append("\"").append(getTableName()).append("\" (");
+        queryBuilder.append("INSERT INTO ").append(getTableName()).append(" (");
 
         for (Field declaredField : declaredFields) {
             Annotation[] declaredFieldAnnotations = declaredField.getDeclaredAnnotations();
@@ -161,7 +161,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
             for (Annotation declaredFieldAnnotation : declaredFieldAnnotations) {
                 if(declaredFieldAnnotation.annotationType().getName().equals("com.durumluemrullah.keyboardguid.common.annotations.Collumn")){
                     if(((Collumn) declaredFieldAnnotation).id()){
-                        queryBuilder.append(((Collumn) declaredFieldAnnotation).name()).append(" = ");
+                        queryBuilder.append("\"").append(((Collumn) declaredFieldAnnotation).name()).append("\"").append(" = ");
                         try {
                             queryBuilder.append(declaredField.get(entity));
                         } catch (IllegalAccessException e) {
@@ -202,7 +202,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         String tableName=null;
         for (Annotation declaredAnnotation : declaredAnnotations) {
             if(declaredAnnotation.annotationType().getName().equals("com.durumluemrullah.keyboardguid.common.annotations.Table")){
-                tableName = ((Table)declaredAnnotation).name();
+                tableName = "\""+((Table)declaredAnnotation).name()+"\"";
             }
         }
         return tableName;
