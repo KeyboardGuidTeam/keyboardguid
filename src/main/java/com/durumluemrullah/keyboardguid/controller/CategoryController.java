@@ -4,9 +4,11 @@ package com.durumluemrullah.keyboardguid.controller;
 import com.durumluemrullah.keyboardguid.model.pojos.Category;
 import com.durumluemrullah.keyboardguid.repository.abstracts.CategoryDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.*;
 
 @RestController
 @RequestMapping("/categories")
@@ -17,13 +19,17 @@ public class CategoryController {
 
 
     @GetMapping("/create")
-    public String Create (){
+    public ResponseEntity<List<Category>> Create (){
 
         Category category = new Category();
-        category.setCategoryName("Backend");
+        category.setCategoryName("Frontend");
 
         categoryDao.create(category);
 
-        return "Eklendi";
+
+
+        System.out.println(categoryDao.getAll());
+
+        return  ResponseEntity.ok(categoryDao.getAll());
     }
 }
