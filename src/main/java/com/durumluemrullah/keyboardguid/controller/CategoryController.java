@@ -39,4 +39,9 @@ public class CategoryController {
 
         return  ResponseEntity.ok(categoryDao.getAll());
     }
+
+    @GetMapping("/ctrl")
+    public String herokuControl(){
+        return "OK";
+    }
 }
