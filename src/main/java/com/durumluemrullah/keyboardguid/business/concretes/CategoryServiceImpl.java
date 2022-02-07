@@ -44,6 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
                 return rule;
             }
         }
+        categoryDao.update(category);
         return new SuccessResult(CategoryConstants.SUCCESS);
     }
 
