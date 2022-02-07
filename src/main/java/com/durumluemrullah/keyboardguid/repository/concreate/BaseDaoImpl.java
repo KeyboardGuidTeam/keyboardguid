@@ -179,7 +179,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     public T getById(BigInteger id) {
 
         StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("SELECT * FROM").append(getTableName()).append(" WHERE ");
+        queryBuilder.append("SELECT * FROM ").append(getTableName()).append(" WHERE ");
 
         Map<String,Object> paramValues = new HashMap<>();
         for (Field declaredField : declaredFields) {
@@ -187,7 +187,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
             Annotation[] declaredFieldAnnotations = declaredField.getDeclaredAnnotations();
             for (Annotation declaredFieldAnnotation : declaredFieldAnnotations) {
                 if(((Collumn) declaredFieldAnnotation).id()){
-                    queryBuilder.append(((Collumn) declaredFieldAnnotation).name()).append(" = :").append(((Collumn) declaredFieldAnnotation).name());
+                    queryBuilder.append("\"").append(((Collumn) declaredFieldAnnotation).name()).append("\"").append(" = :").append(((Collumn) declaredFieldAnnotation).name());
 
                     paramValues.put(((Collumn) declaredFieldAnnotation).name(),id);
                 }
