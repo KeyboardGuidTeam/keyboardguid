@@ -19,7 +19,7 @@ public class CategoryRules {
     public static Result isExist(Category newCategory, CategoryDao categoryDao){
         List<Category> categories = categoryDao.getAll();
         for (Category category : categories) {
-            if(category.getCategoryName().trim().toUpperCase(Locale.ROOT).equals(category.getCategoryName().trim().toUpperCase(Locale.ROOT))){
+            if(category.getCategoryName().trim().toUpperCase(Locale.ROOT).equals(newCategory.getCategoryName().trim().toUpperCase(Locale.ROOT))){
                 return new ErrorResult(CategoryConstants.ALREADY_EXIST);
             }
         }
