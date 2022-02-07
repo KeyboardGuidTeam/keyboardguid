@@ -1,47 +1,59 @@
 package com.durumluemrullah.keyboardguid.controller;
 
 
+import com.durumluemrullah.keyboardguid.business.abstracts.CategoryService;
+import com.durumluemrullah.keyboardguid.common.utills.result.DataResult;
+import com.durumluemrullah.keyboardguid.common.utills.result.Result;
 import com.durumluemrullah.keyboardguid.model.pojos.Category;
-import com.durumluemrullah.keyboardguid.repository.abstracts.CategoryDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
-import java.util.*;
+import javax.websocket.server.PathParam;
+import java.util.List;
 
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
 
+    // REFACTOR EDILECEK !!
+
     @Autowired
-    private CategoryDao categoryDao;
+    private CategoryService categoryService;
 
 
-    @GetMapping("/create")
-    public ResponseEntity<List<Category>> Create (){
+    @GetMapping("/getAll")
+    public ResponseEntity<DataResult<List<Category>>> getAll (){
 
-        Category category = new Category();
-        category.setCategoryName("Frontend");
-
-        categoryDao.create(category);
-
-
-
-        System.out.println(categoryDao.getAll());
-
-        category.setCategoryId(BigInteger.TWO);
-        category.setCategoryName("Frontend update");
-        categoryDao.update(category);
-        categoryDao.delete(category);
-
-        return  ResponseEntity.ok(categoryDao.getAll());
+        return  ResponseEntity.ok(categoryService.getAll());
     }
 
-    @GetMapping("/ctrl")
-    public String herokuControl(){
-        return "OK";
+    @PostMapping("create")
+    public ResponseEntity<Result>  create (@RequestBody Category category){
+        Result result = categoryService.create(category);
+        if(result.isStatus()){
+            return ResponseEntity.ok(result);
+        }
+        return ResponseEntity.badRequest().body(result);
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<Result> update (@RequestBody Category category){
+        Result updateResult = categoryService.update(category);
+
+        if(updateResult.isStatus()){
+            return ResponseEntity.ok(updateResult);
+        }
+        return ResponseEntity.badRequest().body(updateResult);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Result> delete( @PathParam("id") int id){
+        Result deleteResult = categoryService.delete(id);
+        if(deleteResult.isStatus()){
+            return ResponseEntity.ok(deleteResult);
+        }
+        return ResponseEntity.badRequest().body(deleteResult);
+    }
+
 }
